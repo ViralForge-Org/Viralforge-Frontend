@@ -87,28 +87,10 @@ export function useWorldApp() {
         return null;
       }
     } else {
-      // For browser, fallback to MetaMask
-      try {
-        if (window.ethereum) {
-          const accounts = await window.ethereum.request({
-            method: 'eth_requestAccounts',
-          }) as string[];
-          if (!accounts || accounts.length === 0) {
-            throw new Error('No accounts returned');
-          }
-          const address = accounts[0];
-          setUser(prev => ({
-            ...prev,
-            walletAddress: address,
-            isConnected: true,
-          }));
-          return address;
-        }
-        return null;
-      } catch (error) {
-        console.error('Browser wallet connection failed:', error);
-        return null;
-      }
+      // Not running in World App, show message
+      console.log('Please open this app in World App to connect your wallet');
+      alert('This app is designed to work with World App. Please open it in World App to connect your wallet.');
+      return null;
     }
   };
 

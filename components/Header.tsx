@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useAccount, useDisconnect, useSwitchChain } from "wagmi";
 import { LogOut, Plus } from "lucide-react";
-import { MetaMaskButton } from "@metamask/sdk-react-ui";
+import { useWorldApp } from "@/hooks/useWorldApp";
 import { giveGas } from "@/lib/utils";
 
 // MobileNav component remains largely the same
@@ -28,43 +27,23 @@ const MobileNav: React.FC<{
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen] = useState(false);
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-  const { chains, switchChain } = useSwitchChain();
-
-
-  const addChain = async () => {
-  if (chains) {
-    if (window.ethereum)
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            chainId: "0x12C1", // World Chain Sepolia testnet chain ID
-            chainName: "World Chain Sepolia",
-            nativeCurrency: {
-              name: "ETH",
-              symbol: "ETH",
-              decimals: 18,
-            },
-            rpcUrls: ["https://worldchain-sepolia.g.alchemy.com/public"],
-            blockExplorerUrls: ["https://worldchain-sepolia.blockscout.com"],
-          },
-        ],
-      });
-    switchChain({ chainId: 4801 }); // World Chain Sepolia testnet chain ID
-  }
-};
+  const { user, connectWallet, disconnectWallet, isConnected, walletAddress, isMiniApp } = useWorldApp();
 
   useEffect(() => {
-    if (address) giveGas(address as string);
-  }, [isConnected, address]);
+    if (walletAddress) giveGas(walletAddress as string);
+  }, [isConnected, walletAddress]);
 
-
-
-  const truncatedAddress = address
-    ? `${address.slice(0, 4)}...${address.slice(-4)}`
+  const truncatedAddress = walletAddress
+    ? `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`
     : "";
+
+  const handleConnect = async () => {
+    try {
+      await connectWallet();
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+    }
+  };
 
   return (
     <header className="bg-background text-foreground p-4">
@@ -90,24 +69,23 @@ const Header: React.FC = () => {
         {/* Wallet Controls */}
         <div className="flex items-center gap-2 sm:gap-4 justify-center">
           {isConnected ? (
-            <>
-              <div className="relative flex items-center">
-                <button
-                  type="button"
-                  onClick={() => disconnect()}
-                  className="bg-card hover:bg-card/80 px-2 sm:px-4 py-2 rounded-lg flex items-center gap-1 sm:gap-2 transition duration-200 text-sm sm:text-base"
-                >
-                  <span>{truncatedAddress}</span>
-                  <LogOut className="w-4 h-4" />
-                </button>
-
-                <button onClick={addChain}>
-                  <Plus />
-                </button>
-              </div>
-            </>
+            <div className="relative flex items-center">
+              <button
+                type="button"
+                onClick={disconnectWallet}
+                className="bg-yellow-300 hover:bg-yellow-400 border-4 border-black px-2 sm:px-4 py-2 rounded-xl flex items-center gap-1 sm:gap-2 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base font-black text-black shadow-xl"
+              >
+                <span>{truncatedAddress}</span>
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
           ) : (
-            <MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
+            <button
+              onClick={handleConnect}
+              className="bg-red-500 hover:bg-red-600 border-4 border-black text-white px-4 py-2 rounded-xl font-black transition-all duration-300 transform hover:scale-105 shadow-xl uppercase"
+            >
+              🌍 Connect Wallet
+            </button>
           )}
         </div>
       </div>
