@@ -1,0 +1,8 @@
+import ABI from "../contractData/FunnyOrFud.json";
+export const DEPLOYED_CONTRACT = '0xbCD7cd28A214772A8E785E1f2E0ca19f01FdCEf4';
+export const CONTRACT_ABI = ABI.abi;
+
+
+//0x07AF95749d58d4f6288490a58AC9cae6f602b194 :- old
+//
+//0xd16Da71C739Bf59E919De5f179809F47093528DD
