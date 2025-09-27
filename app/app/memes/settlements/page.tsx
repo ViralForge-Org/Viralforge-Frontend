@@ -69,7 +69,7 @@ const UserSettlementsPage = () => {
         // First, try to get user votes from the database (most reliable)
         let userVotesFromDB: any[] = [];
         try {
-          const API_ROUTE = process.env.NEXT_PUBLIC_PROD === "False" ? "http://localhost:5000" : "http://localhost:5000";
+          const API_ROUTE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
           const votesResponse = await fetch(`${API_ROUTE}/api/user-votes/${address}`);
           if (votesResponse.ok) {
             userVotesFromDB = await votesResponse.json();
@@ -101,7 +101,7 @@ const UserSettlementsPage = () => {
             // Check new meme-specific patterns
             if (!userVote) {
               try {
-                const API_ROUTE = process.env.NEXT_PUBLIC_PROD === "False" ? "http://localhost:5000" : "http://localhost:5000";
+                const API_ROUTE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
                 const memeResponse = await fetch(`${API_ROUTE}/api/memes/${i}`);
                 if (memeResponse.ok) {
                   const memesData = await memeResponse.json();
@@ -161,7 +161,7 @@ const UserSettlementsPage = () => {
             // Try to fetch real settlement data from database
             let realSettlement = null;
             try {
-              const API_ROUTE = process.env.NEXT_PUBLIC_PROD === "False" ? "http://localhost:5000" : "http://localhost:5000";
+              const API_ROUTE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
               const settlementResponse = await fetch(`${API_ROUTE}/api/settlement/${i}`);
               if (settlementResponse.ok) {
                 realSettlement = await settlementResponse.json();

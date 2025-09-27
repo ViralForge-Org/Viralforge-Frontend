@@ -11,8 +11,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const API_ROUTE =
-  process.env.NEXT_PUBLIC_PROD == "False" ? "http://localhost:5000" : "http://localhost:5000";
+const API_ROUTE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 // lib/api.ts
 interface MemeData {
