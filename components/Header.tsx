@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { LogOut, Plus } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useWorldApp } from "@/hooks/useWorldApp";
 import { giveGas } from "@/lib/utils";
 
@@ -27,7 +27,7 @@ const MobileNav: React.FC<{
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen] = useState(false);
-  const { user, connectWallet, disconnectWallet, isConnected, walletAddress, isMiniApp } = useWorldApp();
+  const { connectWallet, disconnectWallet, isConnected, walletAddress } = useWorldApp();
 
   useEffect(() => {
     if (walletAddress) giveGas(walletAddress as string);

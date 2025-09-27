@@ -4,6 +4,13 @@ import { useEffect } from 'react';
 import { useAccount, useSwitchChain } from 'wagmi';
 import { worldChainTestnet } from '@/config/wagmiConfig';
 
+// Extend Window interface to include ethereum
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
 export function useAutoSwitchNetwork() {
   const { isConnected, chainId } = useAccount();
   const { switchChain } = useSwitchChain();

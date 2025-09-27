@@ -16,28 +16,6 @@ export const DraggableText: React.FC<DraggableTextProps> = ({
     offset: { x: 0, y: 0 }
   });
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    // Only handle left mouse button
-    if (e.button !== 0) return;
-    
-    e.stopPropagation();
-    
-    const rect = e.currentTarget.getBoundingClientRect();
-    dragState.current.isDragging = true;
-    dragState.current.startPos = { x: e.clientX, y: e.clientY };
-    dragState.current.offset = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    };
-
-    // Add event listeners to document (not window)
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    
-    // Prevent text selection during drag
-    document.body.style.userSelect = 'none';
-  }, []);
-
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!dragState.current.isDragging) return;
 
@@ -66,40 +44,43 @@ export const DraggableText: React.FC<DraggableTextProps> = ({
 
   const handleMouseUp = useCallback(() => {
     dragState.current.isDragging = false;
-    
+
     // Remove event listeners
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
-    
+
     // Restore text selection
     document.body.style.userSelect = '';
   }, [handleMouseMove]);
 
-  // Touch event handlers with proper passive handling
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length !== 1) return;
-    
-    const touch = e.touches[0];
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Only handle left mouse button
+    if (e.button !== 0) return;
+
+    e.stopPropagation();
+
     const rect = e.currentTarget.getBoundingClientRect();
-    
     dragState.current.isDragging = true;
-    dragState.current.startPos = { x: touch.clientX, y: touch.clientY };
+    dragState.current.startPos = { x: e.clientX, y: e.clientY };
     dragState.current.offset = {
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
     };
 
-    // Add touch event listeners
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleTouchEnd);
-  }, []);
+    // Add event listeners to document (not window)
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    // Prevent text selection during drag
+    document.body.style.userSelect = 'none';
+  }, [handleMouseMove, handleMouseUp]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     if (!dragState.current.isDragging || e.touches.length !== 1) return;
 
     // Prevent default scrolling behavior
     e.preventDefault();
-    
+
     const touch = e.touches[0];
     const container = document.querySelector(".image-container");
     if (!container) return;
@@ -124,10 +105,29 @@ export const DraggableText: React.FC<DraggableTextProps> = ({
 
   const handleTouchEnd = useCallback(() => {
     dragState.current.isDragging = false;
-    
+
     document.removeEventListener('touchmove', handleTouchMove);
     document.removeEventListener('touchend', handleTouchEnd);
   }, [handleTouchMove]);
+
+  // Touch event handlers with proper passive handling
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return;
+
+    const touch = e.touches[0];
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    dragState.current.isDragging = true;
+    dragState.current.startPos = { x: touch.clientX, y: touch.clientY };
+    dragState.current.offset = {
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    };
+
+    // Add touch event listeners
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+  }, [handleTouchMove, handleTouchEnd]);
 
   // Cleanup on unmount
   React.useEffect(() => {
