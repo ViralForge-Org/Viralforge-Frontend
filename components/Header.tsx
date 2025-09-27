@@ -15,7 +15,12 @@ const MobileNav: React.FC<{
   return (
     <div className="fixed inset-0 bg-background z-40">
       <div className="p-4 flex justify-between items-center border-b">
-        <h1 className="text-2xl font-bold" onClick={() => window.location.href = '/'} >ViralForge</h1>
+        <h1 className="text-2xl font-black text-red-600 cursor-pointer transform hover:scale-105 transition-all duration-300"
+            style={{
+              fontFamily: 'Comic Sans MS, cursive',
+              textShadow: '3px 3px 0px #ffeb3b, -1px -1px 0px #000'
+            }}
+            onClick={() => window.location.href = '/'} >ViralForge</h1>
       </div>
     </div>
   );
@@ -66,11 +71,21 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo and Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
-          <h1 className="text-2xl font-bold" onClick={() => window.location.href = '/'}>ViralForge</h1>
+          <h1 className="text-2xl font-black text-red-600 cursor-pointer transform hover:scale-105 transition-all duration-300"
+              style={{
+                fontFamily: 'Comic Sans MS, cursive',
+                textShadow: '3px 3px 0px #ffeb3b, -1px -1px 0px #000'
+              }}
+              onClick={() => window.location.href = '/'}>ViralForge</h1>
         </div>
 
         {/* Mobile Logo (centered) */}
-        <h1 className="text-2xl font-bold lg:hidden" onClick={() => window.location.href = '/'}>ViralForge</h1>
+        <h1 className="text-2xl font-black text-red-600 cursor-pointer transform hover:scale-105 transition-all duration-300 lg:hidden"
+            style={{
+              fontFamily: 'Comic Sans MS, cursive',
+              textShadow: '3px 3px 0px #ffeb3b, -1px -1px 0px #000'
+            }}
+            onClick={() => window.location.href = '/'}>ViralForge</h1>
 
         {/* Wallet Controls */}
         <div className="flex items-center gap-2 sm:gap-4 justify-center">

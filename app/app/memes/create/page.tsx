@@ -84,11 +84,64 @@ const MemeCreator: React.FC = () => {
   }, [stage, capturedImage]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-yellow-50 to-red-100 text-gray-900 relative overflow-hidden">
+      {/* Comic Dot Pattern Background */}
+      <div className="absolute inset-0 opacity-30"
+           style={{
+             backgroundImage: `radial-gradient(circle, #ff6b6b 1px, transparent 1px)`,
+             backgroundSize: '20px 20px'
+           }} />
+
+      {/* Comic Style Floating Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {['CREATE!', 'EDIT!', 'SHARE!', '🎨', '✨'].map((text, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-2xl font-bold text-blue-400 opacity-20"
+            initial={{
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              rotate: Math.random() * 360
+            }}
+            animate={{
+              y: [null, -50],
+              rotate: [null, 360],
+              opacity: [0.2, 0, 0.2]
+            }}
+            transition={{
+              duration: Math.random() * 40 + 30,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            {text}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Navigation */}
+
+      {/* Header */}
+      <div className="relative pt-20 pb-8 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-black text-red-600 mb-4 transform -rotate-2 mt-6"
+              style={{
+                textShadow: '4px 4px 0px #ffeb3b, -2px -2px 0px #ff5722',
+                fontFamily: 'Comic Sans MS, cursive'
+              }}>
+            VIRALFORGE! 🎨
+          </h1>
+          <p className="text-gray-700 text-lg font-bold">
+            Create your epic meme in 3 simple steps! 💥
+          </p>
+        </div>
+      </div>
+
       <AnimatePresence>
         {isLoading && <LoadingOverlay message={loadingMessage} />}
       </AnimatePresence>
-      <div className="w-full max-w-2xl mx-auto">
+
+      <div className="relative w-full max-w-2xl mx-auto px-4 pb-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

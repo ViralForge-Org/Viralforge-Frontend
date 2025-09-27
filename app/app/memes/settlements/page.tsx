@@ -309,10 +309,23 @@ const UserSettlementsPage = () => {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Connect Your Wallet</h2>
-          <p className="text-gray-400">Connect your wallet to view your betting history</p>
+      <div className="min-h-screen bg-gradient-to-br from-orange-100 via-yellow-50 to-red-100 text-gray-900 relative overflow-hidden">
+        {/* Comic Dot Pattern Background */}
+        <div className="absolute inset-0 opacity-30"
+             style={{
+               backgroundImage: `radial-gradient(circle, #ff6b6b 1px, transparent 1px)`,
+               backgroundSize: '20px 20px'
+             }} />
+
+
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center bg-yellow-300 border-4 border-black rounded-2xl p-12 max-w-md transform -rotate-2 shadow-xl">
+            <h2 className="text-2xl font-black mb-4 transform rotate-1"
+                style={{ fontFamily: 'Comic Sans MS, cursive' }}>
+              CONNECT WALLET! 🔗
+            </h2>
+            <p className="text-gray-800 font-bold">Connect your wallet to view your epic betting history! 💰</p>
+          </div>
         </div>
       </div>
     );
@@ -320,28 +333,88 @@ const UserSettlementsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p>Loading your betting history...</p>
+      <div className="min-h-screen bg-gradient-to-br from-orange-100 via-yellow-50 to-red-100 text-gray-900 relative overflow-hidden">
+        {/* Comic Dot Pattern Background */}
+        <div className="absolute inset-0 opacity-30"
+             style={{
+               backgroundImage: `radial-gradient(circle, #ff6b6b 1px, transparent 1px)`,
+               backgroundSize: '20px 20px'
+             }} />
+
+
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center bg-blue-300 border-4 border-black rounded-2xl p-12 max-w-md transform rotate-2 shadow-xl">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-black mx-auto mb-4"
+                 style={{ borderTopColor: 'transparent' }}></div>
+            <p className="font-black text-gray-900"
+               style={{ fontFamily: 'Comic Sans MS, cursive' }}>
+              LOADING YOUR BETS... 🎲
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Your Settlements</h1>
-          <p className="text-gray-400">Track your meme template bets and earnings</p>
+    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-yellow-50 to-red-100 text-gray-900 relative overflow-hidden">
+      {/* Comic Dot Pattern Background */}
+      <div className="absolute inset-0 opacity-30"
+           style={{
+             backgroundImage: `radial-gradient(circle, #ff6b6b 1px, transparent 1px)`,
+             backgroundSize: '20px 20px'
+           }} />
+
+      {/* Comic Style Floating Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {['WIN!', 'LOSE!', 'MONEY!', '💰', '🏆', '📊'].map((text, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-2xl font-bold text-green-500 opacity-20"
+            initial={{
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              rotate: Math.random() * 360
+            }}
+            animate={{
+              y: [null, -50],
+              rotate: [null, 360],
+              opacity: [0.2, 0, 0.2]
+            }}
+            transition={{
+              duration: Math.random() * 35 + 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            {text}
+          </motion.div>
+        ))}
+      </div>
+
+
+      <div className="relative max-w-7xl mx-auto px-4 py-20">
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-black text-red-600 mb-4 transform -rotate-2"
+              style={{
+                textShadow: '4px 4px 0px #ffeb3b, -2px -2px 0px #ff5722',
+                fontFamily: 'Comic Sans MS, cursive'
+              }}>
+            YOUR SETTLEMENTS! 💰
+          </h1>
+          <p className="text-gray-700 text-lg font-bold">Track your meme bets and epic winnings! 🏆</p>
         </div>
 
         {userBets.length === 0 ? (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">🎭</div>
-            <h3 className="text-xl font-medium mb-2">No Bets Yet</h3>
-            <p className="text-gray-400">Start voting on meme templates to see your settlements here!</p>
+            <div className="bg-pink-300 border-4 border-black rounded-2xl p-12 max-w-md mx-auto transform rotate-1 shadow-xl">
+              <div className="text-6xl mb-4">🎭</div>
+              <h3 className="text-2xl font-black mb-2 transform -rotate-1"
+                  style={{ fontFamily: 'Comic Sans MS, cursive' }}>
+                NO BETS YET!
+              </h3>
+              <p className="text-gray-800 font-bold">🎲 Start voting on meme templates to see your epic settlements here! 💸</p>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -351,10 +424,10 @@ const UserSettlementsPage = () => {
               return (
                 <motion.div
                   key={bet.marketId}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.05, rotate: Math.random() * 4 - 2 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedBet(bet)}
-                  className={`cursor-pointer rounded-xl border-2 overflow-hidden ${cardStatus.color} transition-all duration-300`}
+                  className="cursor-pointer bg-white border-4 border-black rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:shadow-2xl"
                 >
                   {/* Template Image */}
                   <div className="aspect-square relative">
@@ -366,54 +439,54 @@ const UserSettlementsPage = () => {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     
-                    {/* Status Badge */}
+                    {/* Comic Status Badge */}
                     <div className="absolute top-3 right-3">
-                      <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        cardStatus.status === 'won' ? 'bg-green-500 text-white' :
-                        cardStatus.status === 'lost' ? 'bg-red-500 text-white' :
-                        cardStatus.status === 'pending' ? 'bg-yellow-500 text-black' :
-                        'bg-blue-500 text-white'
+                      <div className={`px-3 py-1 border-2 border-black rounded-lg text-xs font-black transform rotate-12 ${
+                        cardStatus.status === 'won' ? 'bg-green-400 text-black' :
+                        cardStatus.status === 'lost' ? 'bg-red-400 text-white' :
+                        cardStatus.status === 'pending' ? 'bg-yellow-400 text-black' :
+                        'bg-blue-400 text-white'
                       }`}>
-                        {cardStatus.status === 'won' ? '🎉 WON' :
-                         cardStatus.status === 'lost' ? '😞 LOST' :
-                         cardStatus.status === 'pending' ? '⏳ PENDING' :
-                         '🔴 ACTIVE'}
+                        {cardStatus.status === 'won' ? '🎉 WON!' :
+                         cardStatus.status === 'lost' ? '😞 LOST!' :
+                         cardStatus.status === 'pending' ? '⏳ PENDING!' :
+                         '🔴 LIVE!'}
                       </div>
                     </div>
 
-                    {/* Your Vote Badge */}
+                    {/* Comic Vote Badge */}
                     <div className="absolute top-3 left-3">
-                      <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        bet.userVote === 'funny' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
+                      <div className={`px-3 py-1 border-2 border-black rounded-lg text-xs font-black transform -rotate-12 ${
+                        bet.userVote === 'funny' ? 'bg-green-400 text-black' : 'bg-red-400 text-white'
                       }`}>
-                        You voted: {bet.userVote === 'funny' ? '👍 Funny' : '👎 Lame'}
+                        YOU: {bet.userVote === 'funny' ? '👍 FUNNY!' : '👎 LAME!'}
                       </div>
                     </div>
                   </div>
 
-                  {/* Card Details */}
-                  <div className="p-4">
+                  {/* Comic Card Details */}
+                  <div className="p-4 bg-gradient-to-r from-blue-200 to-purple-200 border-t-4 border-black">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-sm text-gray-400">Template #{bet.marketId}</span>
-                      <span className="text-sm font-medium">{cardStatus.text}</span>
+                      <span className="text-sm text-black font-black uppercase">Template #{bet.marketId}</span>
+                      <span className="text-sm font-black text-black transform rotate-1">{cardStatus.text}</span>
                     </div>
 
-                    {/* Vote Statistics */}
+                    {/* Comic Vote Statistics */}
                     <div className="flex justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-green-400" />
-                        <span className="text-green-400 text-sm">{Number(bet.template.yesVotes)} Funny</span>
+                      <div className="flex items-center gap-2 bg-green-300 border-2 border-black rounded-lg px-2 py-1 transform -rotate-1">
+                        <TrendingUp className="w-4 h-4 text-green-700" />
+                        <span className="text-green-700 text-sm font-black">{Number(bet.template.yesVotes)} FUNNY</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <TrendingDown className="w-4 h-4 text-red-400" />
-                        <span className="text-red-400 text-sm">{Number(bet.template.noVotes)} Lame</span>
+                      <div className="flex items-center gap-2 bg-red-300 border-2 border-black rounded-lg px-2 py-1 transform rotate-1">
+                        <TrendingDown className="w-4 h-4 text-red-700" />
+                        <span className="text-red-700 text-sm font-black">{Number(bet.template.noVotes)} LAME</span>
                       </div>
                     </div>
 
-                    {/* Progress Bar */}
-                    <div className="bg-gray-700 h-2 rounded-full overflow-hidden mb-3">
+                    {/* Comic Progress Bar */}
+                    <div className="bg-black border-2 border-black h-4 rounded-full overflow-hidden mb-3 transform -rotate-1">
                       <div
-                        className="bg-green-500 h-full transition-all duration-500"
+                        className="bg-green-400 h-full transition-all duration-500 border-r-2 border-black"
                         style={{
                           width: `${
                             (Number(bet.template.yesVotes) /
@@ -424,9 +497,9 @@ const UserSettlementsPage = () => {
                       />
                     </div>
 
-                    {/* Stake Info */}
-                    <div className="text-xs text-gray-400">
-                      Your stake: {bet.stakeAmount} ETH
+                    {/* Comic Stake Info */}
+                    <div className="text-xs text-black font-black bg-yellow-300 border-2 border-black rounded-lg px-2 py-1 transform rotate-1 text-center">
+                      YOUR STAKE: {bet.stakeAmount} ETH 💰
                     </div>
                   </div>
                 </motion.div>
@@ -450,17 +523,20 @@ const UserSettlementsPage = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+                className="bg-white border-4 border-black rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
               >
-                {/* Modal Header */}
-                <div className="p-6 border-b border-gray-700">
+                {/* Comic Modal Header */}
+                <div className="p-6 border-b-4 border-black bg-yellow-300">
                   <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-bold">Settlement Details</h2>
+                    <h2 className="text-2xl font-black text-black transform -rotate-1"
+                        style={{ fontFamily: 'Comic Sans MS, cursive' }}>
+                      SETTLEMENT DETAILS! 📊
+                    </h2>
                     <button
                       onClick={() => setSelectedBet(null)}
-                      className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+                      className="p-2 bg-red-500 hover:bg-red-600 border-2 border-black rounded-lg transition-colors transform rotate-12"
                     >
-                      <X className="w-5 h-5" />
+                      <X className="w-5 h-5 text-white" />
                     </button>
                   </div>
                 </div>
