@@ -27,28 +27,21 @@ export function useWorldApp() {
         const isMiniApp = MiniKit.isInstalled();
 
         if (isMiniApp) {
-          // Get user information from World App
-          try {
-            // Note: In real implementation, you'd use wallet auth
-            setUser({
-              isConnected: true,
-              isMiniApp: true,
-              walletAddress: undefined, // Will be set after auth
-              username: undefined,
-              profilePictureUrl: undefined,
-            });
-          } catch (error) {
-            console.error('Error getting user info:', error);
-            setUser({
-              isConnected: false,
-              isMiniApp: true,
-            });
-          }
+          // Initialize World App user state
+          setUser({
+            isConnected: false, // Will be set to true after wallet connection
+            isMiniApp: true,
+            walletAddress: undefined, // Will be set after wallet auth
+            username: undefined,
+            profilePictureUrl: undefined,
+          });
+          console.log('World App (MiniKit) detected');
         } else {
           setUser({
             isConnected: false,
             isMiniApp: false,
           });
+          console.log('Running in browser mode');
         }
       }
     };
@@ -58,13 +51,39 @@ export function useWorldApp() {
 
   const connectWallet = async (): Promise<string | null> => {
     if (user.isMiniApp) {
-      // For mini app, implement wallet auth
+      // For World App, use MiniKit wallet authentication
       try {
-        // TODO: Implement MiniKit wallet authentication
-        console.log('Mini app wallet connection - implement wallet auth');
-        return null;
+        console.log('Connecting wallet in World App...');
+
+        // Use MiniKit to connect wallet
+        const { finalPayload } = await MiniKit.commandsAsync.walletAuth({
+          nonce: Math.floor(Math.random() * 1000000).toString(),
+          requestId: `connect-${Date.now()}`,
+          expirationTime: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
+          notBefore: new Date(),
+          statement: "Connect your wallet to ViralForge to start creating and voting on memes!",
+        });
+
+        if (finalPayload.status === 'error') {
+          throw new Error('Wallet authentication failed in World App');
+        }
+
+        const walletAddress = finalPayload.address;
+
+        setUser(prev => ({
+          ...prev,
+          walletAddress,
+          isConnected: true,
+        }));
+
+        console.log('World App wallet connected:', walletAddress);
+        return walletAddress;
       } catch (error) {
-        console.error('Mini app wallet connection failed:', error);
+        console.error('World App wallet connection failed:', error);
+        setUser(prev => ({
+          ...prev,
+          isConnected: false,
+        }));
         return null;
       }
     } else {
@@ -87,17 +106,28 @@ export function useWorldApp() {
         }
         return null;
       } catch (error) {
-        console.error('Wallet connection failed:', error);
+        console.error('Browser wallet connection failed:', error);
         return null;
       }
     }
   };
 
+  const disconnectWallet = () => {
+    setUser(prev => ({
+      ...prev,
+      walletAddress: undefined,
+      isConnected: false,
+    }));
+    console.log('Wallet disconnected');
+  };
+
   return {
     user,
     connectWallet,
+    disconnectWallet,
     isMiniApp: user.isMiniApp,
     isConnected: user.isConnected,
+    walletAddress: user.walletAddress,
     isWorldChain,
     currentChainId,
   };
