@@ -44,15 +44,15 @@ export function useTransactions() {
           throw new Error('Please connect your wallet first');
         }
 
-        const hash = await writeContract({
+        writeContract({
           address: DEPLOYED_CONTRACT as `0x${string}`,
           abi: CONTRACT_ABI,
           functionName: 'createMeme',
           args: [creator as `0x${string}`, cid, BigInt(templateId)],
         });
 
-        setPendingTx(hash);
-        return hash;
+        // Return success indication - the actual hash tracking is handled by the hook
+        return 'pending';
       }
     } catch (error) {
       console.error('Create meme error:', error);
@@ -90,7 +90,7 @@ export function useTransactions() {
           throw new Error('Please connect your wallet first');
         }
 
-        const hash = await writeContract({
+        writeContract({
           address: DEPLOYED_CONTRACT as `0x${string}`,
           abi: CONTRACT_ABI,
           functionName: 'vote',
@@ -98,8 +98,7 @@ export function useTransactions() {
           value: voteCost,
         });
 
-        setPendingTx(hash);
-        return hash;
+        return 'pending';
       }
     } catch (error) {
       console.error('Vote error:', error);
@@ -135,15 +134,14 @@ export function useTransactions() {
           throw new Error('Please connect your wallet first');
         }
 
-        const hash = await writeContract({
+        writeContract({
           address: DEPLOYED_CONTRACT as `0x${string}`,
           abi: CONTRACT_ABI,
           functionName: 'createMarket',
           args: [metadata],
         });
 
-        setPendingTx(hash);
-        return hash;
+        return 'pending';
       }
     } catch (error) {
       console.error('Create market error:', error);

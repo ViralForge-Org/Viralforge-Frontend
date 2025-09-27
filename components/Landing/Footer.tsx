@@ -23,7 +23,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <h3 className="text-2xl font-bold text-white mb-4">ViralForge</h3>
             <p className="text-gray-400 text-sm mb-4 max-w-md">
-              The first web3 platform that brings financial value to meme creation and curation. Create, vote, and earn from the internet's favorite content.
+              The first web3 platform that brings financial value to meme creation and curation. Create, vote, and earn from the internet&apos;s favorite content.
             </p>
             <div className="flex space-x-4">
               <motion.a

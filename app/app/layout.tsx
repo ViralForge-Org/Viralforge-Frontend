@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { ReactNode, useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import BottomHeader from "@/components/BottomHeader";
 
 const Header = dynamic(() => import("@/components/Header"), { ssr: false });

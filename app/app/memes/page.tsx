@@ -142,9 +142,10 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ImagePlus, Loader2 } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 import { useReadContract, useReadContracts } from 'wagmi';
 import { Address, Abi } from 'viem';
 import { CONTRACT_ABI, DEPLOYED_CONTRACT } from "@/lib/ethers";
@@ -156,7 +157,6 @@ interface MemeWithImage extends Meme {
 
 const MemeGallery = () => {
   const [memes, setMemes] = useState<MemeWithImage[]>([]);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   // Get market count with proper typing
@@ -184,7 +184,6 @@ const MemeGallery = () => {
 
   useEffect(() => {
     const populateMemes = async () => {
-      setLoading(true);
       try {
         if (!allMarketMemes) return;
 
@@ -215,8 +214,6 @@ const MemeGallery = () => {
         setMemes(memesWithImages);
       } catch (error) {
         console.error("Error loading memes:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -250,10 +247,12 @@ const MemeGallery = () => {
                 transition={{ duration: 0.2 }}
               >
                 <div className="aspect-square bg-gray-800 rounded-lg overflow-hidden">
-                  <img
-                    src={meme.image}
+                  <Image
+                    src={meme.image || ""}
                     alt={`Meme ${index}`}
                     className="w-full h-full object-contain rounded-xl"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               </motion.div>

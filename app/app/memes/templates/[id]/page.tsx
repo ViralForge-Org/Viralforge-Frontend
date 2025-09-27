@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import {
   ThumbsUp,
@@ -231,7 +232,7 @@ const MemeView = () => {
   }, [marketData, templateId, marketCount, marketError]);
 
   // Swipe handling
-  const handleDrag = (event: any, info: PanInfo) => {
+  const handleDrag = () => {
     // Visual feedback during drag (optional)
   };
 
@@ -490,7 +491,7 @@ const MemeView = () => {
                 )}
                 
                 <div className="bg-blue-500/20 border border-blue-500/50 rounded-lg p-3">
-                  <p className="text-blue-400">💡 If you win (majority), you'll get your stake back plus a share of the losing votes!</p>
+                  <p className="text-blue-400">💡 If you win (majority), you&apos;ll get your stake back plus a share of the losing votes!</p>
                 </div>
               </div>
               
@@ -636,10 +637,12 @@ const MemeView = () => {
                 onDragEnd={handleDragEnd}
                 className="absolute w-full h-full"
               >
-                <img
-                  src={memes[currentIndex]?.image}
+                <Image
+                  src={memes[currentIndex]?.image || ''}
                   alt="Meme"
                   className="w-full h-full object-contain rounded-xl"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </motion.div>
             </AnimatePresence>
@@ -763,7 +766,7 @@ const MemeView = () => {
         {hasVoted && (
           <div className="text-center mt-4">
             <p className="text-yellow-400 text-sm">
-              ✓ You've voted! Check back after 6 hours for settlement.
+              ✓ You&apos;ve voted! Check back after 6 hours for settlement.
             </p>
           </div>
         )}

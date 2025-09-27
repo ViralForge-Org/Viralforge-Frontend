@@ -5,7 +5,6 @@ import { useAccount, useDisconnect, useSwitchChain } from "wagmi";
 import { LogOut, Plus } from "lucide-react";
 import { MetaMaskButton } from "@metamask/sdk-react-ui";
 import { giveGas } from "@/lib/utils";
-import { useRouter } from "next/router";
 
 // MobileNav component remains largely the same
 const MobileNav: React.FC<{
@@ -23,7 +22,7 @@ const MobileNav: React.FC<{
 };
 
 const Header: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen] = useState(false);
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { chains, switchChain } = useSwitchChain();

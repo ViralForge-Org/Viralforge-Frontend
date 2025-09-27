@@ -579,9 +579,6 @@ type MimeType = string;
 type Base64String = string;
 type FileName = string;
 
-interface FileReaderProgressEvent extends ProgressEvent {
-  readonly target: (FileReader & EventTarget) | null;
-}
 
 // Convert base64 to Blob
 const base64ToBlob = (
@@ -621,25 +618,25 @@ const base64ToFile = (
 };
 
 // Download base64 as file
-const downloadBase64File = (
-  base64String: Base64String, 
-  fileName: FileName, 
-  mimeType: MimeType = 'application/octet-stream'
-): void => {
-  const blob = base64ToBlob(base64String, mimeType);
-  const url = window.URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = fileName;
+// const downloadBase64File = (
+//   base64String: Base64String, 
+//   fileName: FileName, 
+//   mimeType: MimeType = 'application/octet-stream'
+// ): void => {
+//   const blob = base64ToBlob(base64String, mimeType);
+//   const url = window.URL.createObjectURL(blob);
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.download = fileName;
   
-  // Append to body, click, and remove
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+//   // Append to body, click, and remove
+//   document.body.appendChild(link);
+//   link.click();
+//   document.body.removeChild(link);
   
-  // Clean up the URL object
-  window.URL.revokeObjectURL(url);
-};
+//   // Clean up the URL object
+//   window.URL.revokeObjectURL(url);
+// };
 
 // Error handling with types
 interface Base64Error extends Error {

@@ -1,4 +1,5 @@
 import ShareButtons from "./ShareButtons";
+import Image from "next/image";
 
 interface Stage3Props {
   finalMeme: string | null;
@@ -29,10 +30,12 @@ const Stage3: React.FC<Stage3Props> = ({
     <div className="flex flex-col items-center w-full">
       <div className="relative w-full h-[70vh] bg-gray-900 rounded-lg overflow-hidden mb-4">
         {finalMeme && (
-          <img
+          <Image
             src={finalMeme}
             alt="Generated Meme"
-            className="w-full h-full object-cover"
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
       </div>

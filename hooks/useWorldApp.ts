@@ -73,7 +73,10 @@ export function useWorldApp() {
         if (window.ethereum) {
           const accounts = await window.ethereum.request({
             method: 'eth_requestAccounts',
-          });
+          }) as string[];
+          if (!accounts || accounts.length === 0) {
+            throw new Error('No accounts returned');
+          }
           const address = accounts[0];
           setUser(prev => ({
             ...prev,

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { downloadBlob } from "@/lib/walrus-helper";
 import { downloadAndDisplayFile } from "@/lib/akave-helper";
@@ -48,7 +49,7 @@ const LazyBlobImage = ({
         URL.revokeObjectURL(imageUrl);
       }
     };
-  }, [cid, type]);
+  }, [cid, type, imageUrl]);
 
   if (loading) {
     return (
@@ -67,11 +68,15 @@ const LazyBlobImage = ({
   }
 
   return (
-    <img
-      src={imageUrl!}
-      alt={`Content for ${cid}`}
-      className={`max-w-full h-auto object-contain ${className}`}
-    />
+    <div className="relative w-full h-full">
+      <Image
+        src={imageUrl!}
+        alt={`Content for ${cid}`}
+        className={`object-contain ${className}`}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
+    </div>
   );
 };
 

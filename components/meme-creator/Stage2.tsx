@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { TextBox } from "./types";
 import { DraggableText } from "./DraggableText";
 import { TextControl } from "./TextControl";
 import { generateMemeCanvas } from "./helper";
 import { uploadImage } from "@/lib/utils";
-import { MemeSchema } from "@/true-network/schema";
 import { TrueApi } from "@truenetworkio/sdk";
 import { useAccount } from "wagmi";
 import { useTransactions } from "@/hooks/useTransactions";
@@ -32,7 +32,6 @@ const Stage2: React.FC<Stage2Props> = ({
   setStage,
   setIsLoading,
   setLoadingMessage,
-  trueApi,
   memeTemplate,
 }) => {
   const [isClient, setIsClient] = useState(false);
@@ -131,10 +130,12 @@ const Stage2: React.FC<Stage2Props> = ({
   className="relative w-full h-[55vh] bg-gray-900 rounded-lg overflow-hidden mb-4 image-container"
   style={{ touchAction: 'pan-y' }} // Allow vertical scrolling but prevent horizontal pan
 >
-  <img
+  <Image
     src={capturedImage}
     alt="Template"
-    className="w-full h-full object-contain pointer-events-none" // Prevent image interference
+    className="object-contain pointer-events-none" // Prevent image interference
+    fill
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
   />
 </div>
         )}

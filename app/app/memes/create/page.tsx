@@ -45,9 +45,6 @@ const MemeCreator: React.FC = () => {
         );
       case 2: {
         if (!capturedImage) {
-          useEffect(() => {
-            setStage(1);
-          }, []);
           return null;
         }
         return (

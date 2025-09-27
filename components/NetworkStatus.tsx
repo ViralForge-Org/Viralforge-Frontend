@@ -1,7 +1,6 @@
 "use client";
 
 import { useWorldApp } from '@/hooks/useWorldApp';
-import { worldChainTestnet } from '@/config/wagmiConfig';
 
 export function NetworkStatus() {
   const { isMiniApp, isWorldChain, currentChainId } = useWorldApp();

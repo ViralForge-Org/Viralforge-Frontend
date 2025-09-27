@@ -1,4 +1,4 @@
-import { Compass, Plus, User, Wallet } from "lucide-react";
+import { Compass, Plus, Wallet } from "lucide-react";
 import Link from "next/link";
 
 const BottomHeader = () => {

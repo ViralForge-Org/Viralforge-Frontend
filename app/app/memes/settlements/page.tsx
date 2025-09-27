@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAccount, useReadContract, useReadContracts } from 'wagmi';
 import { CONTRACT_ABI, DEPLOYED_CONTRACT } from '@/lib/ethers';
@@ -185,7 +186,6 @@ const UserSettlementsPage = () => {
                 userPayout = userParticipation.won ? (Number(userParticipation.payout) / 1e18).toFixed(6) : '0';
               } else {
                 // Calculate estimated payout if user not in participants yet
-                const totalVotes = Number(yesVotes) + Number(noVotes);
                 const winningVotes = winnerSide === 'funny' ? Number(yesVotes) : Number(noVotes);
                 const totalPool = Number(totalStaked) / 1e18;
                 const voterPool = totalPool * 0.95;
@@ -196,7 +196,6 @@ const UserSettlementsPage = () => {
               settledAt = new Date(realSettlement.settledAt);
             } else {
               // Fallback to calculated payout
-              const totalVotes = Number(yesVotes) + Number(noVotes);
               const winningVotes = winnerSide === 'funny' ? Number(yesVotes) : Number(noVotes);
               const totalPool = Number(totalStaked) / 1e18;
               const voterPool = totalPool * 0.95;
@@ -359,10 +358,12 @@ const UserSettlementsPage = () => {
                 >
                   {/* Template Image */}
                   <div className="aspect-square relative">
-                    <img
+                    <Image
                       src={bet.template.image}
                       alt={`Template ${bet.marketId}`}
                       className="w-full h-full object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     
                     {/* Status Badge */}
@@ -468,10 +469,12 @@ const UserSettlementsPage = () => {
                 <div className="p-6">
                   {/* Template Image */}
                   <div className="aspect-video bg-gray-700 rounded-xl overflow-hidden mb-6">
-                    <img
+                    <Image
                       src={selectedBet.template.image}
                       alt={`Template ${selectedBet.marketId}`}
                       className="w-full h-full object-contain"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
 
