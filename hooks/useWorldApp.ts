@@ -58,18 +58,31 @@ export function useWorldApp() {
       try {
         console.log('🔐 Connecting wallet in World App...');
 
-        // Generate a secure nonce (at least 8 alphanumeric characters as per docs)
-        const generateSecureNonce = (): string => {
-          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-          let result = '';
-          for (let i = 0; i < 16; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        // Try to get nonce from backend, fallback to client-side generation
+        let nonce: string;
+        try {
+          const nonceResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/nonce`);
+          if (nonceResponse.ok) {
+            const nonceData = await nonceResponse.json();
+            nonce = nonceData.nonce;
+            console.log('🔑 Retrieved nonce from backend for authentication');
+          } else {
+            throw new Error('Backend nonce fetch failed');
           }
-          return result;
-        };
-
-        const nonce = generateSecureNonce();
-        console.log('🔑 Generated nonce for authentication');
+        } catch (error) {
+          console.log('⚠️ Using client-side nonce generation as fallback');
+          // Fallback to client-side nonce generation
+          const generateSecureNonce = (): string => {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 16; i++) {
+              result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+          };
+          nonce = generateSecureNonce();
+          console.log('🔑 Generated client-side nonce for authentication');
+        }
 
         // Use MiniKit to connect wallet with proper error handling
         const response = await MiniKit.commandsAsync.walletAuth({
