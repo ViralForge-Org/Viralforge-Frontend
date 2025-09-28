@@ -12,7 +12,7 @@ export function useMiniKitTransactions() {
     voteYes: boolean
   ) => {
     if (!MiniKit.isInstalled()) {
-      throw new Error('MiniKit not available - use fallback method');
+      throw new Error('MiniKit not available - please open this app in World App');
     }
 
     try {
@@ -45,7 +45,7 @@ export function useMiniKitTransactions() {
     templateId: number
   ) => {
     if (!MiniKit.isInstalled()) {
-      throw new Error('MiniKit not available - use fallback method');
+      throw new Error('MiniKit not available - please open this app in World App');
     }
 
     try {
@@ -71,7 +71,7 @@ export function useMiniKitTransactions() {
 
   const sendCreateMarketTransaction = async (metadata: string) => {
     if (!MiniKit.isInstalled()) {
-      throw new Error('MiniKit not available - use fallback method');
+      throw new Error('MiniKit not available - please open this app in World App');
     }
 
     try {

@@ -39,9 +39,23 @@ const Header: React.FC = () => {
 
   const handleConnect = async () => {
     try {
-      await connectWallet();
+      const address = await connectWallet();
+      if (address) {
+        console.log('✅ Wallet connected successfully:', address);
+      }
     } catch (error) {
       console.error('Failed to connect wallet:', error);
+
+      // Show user-friendly error message
+      if (error instanceof Error) {
+        if (error.message.includes('World App')) {
+          alert('🌍 Please open this app in World App to connect your wallet.\n\nDownload World App and open this link through the app.');
+        } else {
+          alert(`❌ Wallet connection failed: ${error.message}`);
+        }
+      } else {
+        alert('❌ Failed to connect wallet. Please try again.');
+      }
     }
   };
 

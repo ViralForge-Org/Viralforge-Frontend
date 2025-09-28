@@ -27,19 +27,34 @@ export function MiniKitProvider({ children }: MiniKitProviderProps) {
     // Install MiniKit when component mounts
     if (typeof window !== 'undefined') {
       try {
-        // This is the key fix - we need to install MiniKit first
+        // Install MiniKit and wait for initialization
         MiniKit.install();
 
-        // Check if we're running inside World App after installation
-        const installed = MiniKit.isInstalled();
-        setIsInstalled(installed);
-        setIsReady(true);
+        // Add a small delay to ensure MiniKit is fully initialized
+        const checkInstallation = () => {
+          try {
+            const installed = MiniKit.isInstalled();
+            setIsInstalled(installed);
+            setIsReady(true);
 
-        if (installed) {
-          console.log('✅ MiniKit is installed and ready!');
-        } else {
-          console.log('⚠️ MiniKit not detected - running in browser mode');
-        }
+            if (installed) {
+              console.log('✅ MiniKit is installed and ready!');
+              console.log('📱 Running inside World App');
+            } else {
+              console.log('⚠️ MiniKit not detected - running in browser mode');
+              console.log('🌐 To use wallet features, please open this app in World App');
+            }
+          } catch (checkError) {
+            console.error('Error checking MiniKit installation:', checkError);
+            setIsInstalled(false);
+            setIsReady(true);
+          }
+        };
+
+        // Check immediately and also after a short delay for initialization
+        checkInstallation();
+        setTimeout(checkInstallation, 100);
+
       } catch (error) {
         console.error('Failed to install MiniKit:', error);
         setIsInstalled(false);
